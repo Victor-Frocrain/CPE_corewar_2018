@@ -1,0 +1,37 @@
+/*
+** EPITECH PROJECT, 2019
+** asm
+** File description:
+** int_as_byte_code.c
+*/
+
+#include "corewar.h"
+
+bool is_big_endian(void)
+{
+    const union {
+        int i;
+        char c[4];
+    } e = {0x01000000};
+
+    return (!e.c[0]);
+}
+
+int reverse_short(int nb)
+{
+    int res = (nb & 0xFF00) >> 8;
+
+    res |= (nb & 0x00FF) << 8;
+    return (is_big_endian() ? res : nb);
+}
+
+int reverse_int(int nb)
+{
+    int res = 0;
+
+    res |= (nb & 0xFF000000) >> (4 * 6);
+    res |= (nb & 0x00FF0000) >> (4 * 2);
+    res |= (nb & 0x0000FF00) << (4 * 2);
+    res |= (nb & 0x000000FF) << (4 * 6);
+    return (is_big_endian() ? res : nb);
+}
